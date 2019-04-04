@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cost.costs">
+	
+	<select id="selectCostsGroupBYTotalPriceResult" resultType="CostsVO">
+		SELECT cs.cost_name,
+			ROUND(SUM(
+			CASE WHEN cd.cd_measure = 'kg' AND cd.cd_loss_rate > 0 THEN cs.cost_measure_cal * (cd.cd_cost + cd.cd_cost/cd.cd_loss_rate)/1000
+				WHEN cd.cd_measure = 'kg' AND cd.cd_loss_rate = 0 THEN cs.cost_measure_cal * (cd.cd_cost)/1000
+		        WHEN cd.cd_measure = 'liter' THEN cs.cost_measure_cal * (cd.cd_cost)/1000
+		        WHEN cd.cd_measure = 'ea' THEN cs.cost_measure_cal * cd.cd_cost
+		        END)) AS total_price
+		FROM costs cs
+		JOIN cost_detail cd
+		ON cd.cd_pk = cs.cd_fk
+		GROUP BY cs.cost_name
+	</select>
+	
+	<select id="selectCostsPkByCostName" resultType="CostsVO" parameterType="String">
+		SELECT *
+		FROM costs
+		WHERE cost_name = #{costName}
+	</select>
+
+</mapper>
+
+
+
+
+
+
+
+

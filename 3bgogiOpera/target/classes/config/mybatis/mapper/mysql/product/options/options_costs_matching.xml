@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="products.options_costs_matching">
+	
+	<insert id="insertOptionsCostsMatching" >
+		INSERT INTO options_costs_matching(cost_fk, option_fk, ocm_gram_recal_flag, ocm_production_divide, ocm_each)
+		VALUES(#{costFk}, #{optionFk}, #{ocmGramRecalFlag}, #{ocmProductionDivide}, #{ocmEach})
+	</insert>
+	
+</mapper>
+
+
+
+
+
+
+
+

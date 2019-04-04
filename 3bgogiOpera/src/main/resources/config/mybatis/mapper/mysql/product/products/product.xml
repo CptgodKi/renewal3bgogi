@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="products.product">
+
+	<resultMap type="com.gogi.proj.product.products.vo.ProductsVO" id="productModel">
+		<id property="productPk" column="product_pk" javaType="int"/>
+		<result property="productName" column="product_name" javaType="String"/>
+		<result property="productFlag" column="product_flag" javaType="boolean"/>
+		<result property="productRemark" column="product_remark" javaType="String"/>
+		<result property="productMemo1" column="product_memo1" javaType="String"/>
+		<result property="productMemo2" column="product_memo2" javaType="String"/>
+		<result property="productMemo3" column="product_memo3" javaType="String"/>
+		<result property="productMemo4" column="product_memo4" javaType="String"/>
+		<result property="productMemo5" column="product_memo5" javaType="String"/>
+		<result property="productMemo6" column="product_memo6" javaType="String"/>
+		<result property="productThumbnail1" column="product_thumbnail1" javaType="String"/>
+		<result property="productThumbnail2" column="product_thumbnail2" javaType="String"/>
+		<result property="productRegdate" column="product_regdate" javaType="java.sql.Date"/>
+		<collection property="optionVOList"  ofType="OptionsVO">
+			<id property="optionPk" column="option_pk" javaType="int"/>
+			<result property="optionName" column="option_name" javaType="String"/>
+		</collection>
+	</resultMap>
+	
+	<select id="selectDetailProductWithOptionByProductPk" resultMap="productModel" parameterType="int">
+		SELECT pro.*, opt.option_pk, opt.option_name
+		FROM
+			products pro 
+		LEFT JOIN options opt 
+		ON pro.product_pk = opt.product_fk
+		WHERE pro.product_pk = #{productPk}
+		ORDER BY cf_fk
+	</select>
+	
+	<select id="selectProductList" resultType="ProductsVO">
+		SELECT pro.product_pk, pro.product_name, pro.product_regdate, pro.product_memo1, count(opt.option_pk) AS product_option_count
+		FROM
+			products pro 
+		LEFT JOIN options opt 
+		ON pro.product_pk = opt.product_fk
+		GROUP BY pro.product_pk, pro.product_name, pro.product_regdate, pro.product_memo1
+		ORDER BY cf_fk
+	</select>
+	
+	<select id="selectProductListByCfFk" resultType="ProductsVO" parameterType="int">
+		SELECT pro.product_pk, pro.product_name, pro.product_regdate, pro.product_memo1, count(opt.option_pk) AS product_option_count
+		FROM
+			products pro 
+		LEFT JOIN options opt 
+		ON pro.product_pk = opt.product_fk
+		<if test="value gt 0">
+			WHERE cf_fk = #{cfFk}		
+		</if>
+		GROUP BY pro.product_pk, pro.product_name, pro.product_regdate, pro.product_memo1
+		ORDER BY cf_fk
+	</select>
+	
+	<insert id="insertProducts" useGeneratedKeys="true" keyProperty="productPk" parameterType="ProductsVO">
+		INSERT INTO products(cf_fk, product_name, product_flag, product_remark, product_memo1, 
+			product_memo2, product_memo3, product_memo4, product_memo5, product_memo6, product_thumbnail1, product_thumbnail2)
+		VALUES(#{cfFk}, #{productName}, #{productFlag}, #{productRemark}, #{productMemo1}, #{productMemo2}, #{productMemo3}, #{productMemo4}, #{productMemo5}, #{productMemo6},
+			#{productThumbnail1}, #{productThumbnail2})
+	</insert>
+	
+	<select id="selectProductCountByCfFk" resultType="int" parameterType="int">
+		SELECT COUNT(product_pk) AS productCount
+		FROM products
+		<if test="value gt 0">
+			WHERE cf_fk = #{cfFk}		
+		</if>
+	</select>
+	
+	<select id="selectProductByPk" parameterType="int" resultType="ProductsVO">
+		SELECT *
+		FROM products
+		WHERE product_pk = #{productPk}
+	</select>
+	
+</mapper>
+
+
+
+
+
+
+
+

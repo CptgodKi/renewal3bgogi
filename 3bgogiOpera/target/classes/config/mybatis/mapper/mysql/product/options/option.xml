@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="products.option">
+
+	<!-- <resultMap type="com.gogi.proj.product.options.vo.OptionsVO" id="optionsAndCostsMatchingCollectionList">
+		<id property="optionPk" column="optionPk" javaType="int"/>
+		<result property="eoFk" column="eoFk" javaType="int"/>
+		<result property="resFk" column="resFk" javaType="int"/>
+		<result property="eventFk" column="eventFk" javaType="int"/>
+		<result property="pccFk" column="pccFk" javaType="int"/>
+		<result property="productFk" column="productFk" javaType="int"/>
+		<result property="optionName" column="optionName" javaType="String"/>
+		<result property="optionPrice" column="optionPrice" javaType="int"/>
+		<result property="optionFlag" column="optionFlag" javaType="boolean"/>
+		<result property="optionSeq" column="optionSeq" javaType="int"/>
+		<result property="optionBarcodeNumber1" column="optionBarcodeNumber1" javaType="String"/>
+		<result property="optionBarcodeNumber2" column="optionBarcodeNumber2" javaType="String"/>
+		<result property="optionRemark" column="optionRemark" javaType="String"/>
+		<result property="optionTaxFlag" column="optionTaxFlag" javaType="boolean"/>
+		<result property="optionStockFlag" column="optionStockFlag" javaType="boolean"/>
+		<result property="optionStock" column="optionStock" javaType="int"/>
+		<result property="optionExcelColorCheck" column="optionExcelColorCheck" javaType="boolean"/>
+		<result property="optionMemo1" column="optionMemo1" javaType="String"/>
+		<result property="optionMemo2" column="optionMemo2" javaType="String"/>
+		<result property="optionMemo3" column="optionMemo3" javaType="String"/>
+		<result property="optionThumbnail1" column="optionThumbnail1" javaType="String"/>
+		<result property="optionThumbnail2" column="optionThumbnail2" javaType="String"/>
+		<result property="optionUpdate" column="optionUpdate" javaType="Date"/>
+		<result property="optionRegdate" column="optionRegdate" javaType="Timestamp"/>
+
+		<collection property="optionCostsMatchingVO" column="optionPk" javaType="java.util.ArrayList" ofType="OptionsCostsMatchingVO" select=""/>
+
+	</resultMap>-->
+	
+	<insert id="insertOptions" useGeneratedKeys="true" keyProperty="optionPk" parameterType="OptionsVO">
+		INSERT INTO options(eo_fk,  pcc_fk, product_fk, option_name, option_price, option_flag, option_seq, option_barcode_number1,
+							option_barcode_number2, option_remark, option_tax_flag, option_stock_flag, option_stock, option_stock_max_alarm, option_excel_color_check,
+							option_memo1, option_memo2, option_memo3, option_memo4, option_thumbnail1, option_thumbnail2,option_update, option_regdate)
+		VALUES(#{eoFk},  #{pccFk}, #{productFk}, #{optionName}, #{optionPrice}, #{optionFlag}, #{optionSeq}, #{optionBarcodeNumber1},#{optionBarcodeNumber2},
+			#{optionRemark}, #{optionTaxFlag}, #{optionStockFlag} ,#{optionStock}, #{optionStockMaxAlarm}, #{optionExcelColorCheck}, #{optionMemo1}, #{optionMemo2}, #{optionMemo3}, #{optionMemo4},
+			#{optionThumbnail1}, #{optionThumbnail2}, NOW(), NOW())
+	</insert>
+	
+</mapper>
+
+
+
+
+
+
+
+
