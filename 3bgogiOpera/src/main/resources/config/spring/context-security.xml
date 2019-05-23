@@ -31,9 +31,11 @@
 		<security:intercept-url pattern="/options/*/*.do" access="hasRole('ROLE_DEVELOPER')"/>
 		<security:intercept-url pattern="/orders/*.do" access="hasRole('ROLE_DEVELOPER')"/>
 		<security:intercept-url pattern="/admin/attendance/admin_attendance_status.do" access="hasRole('ROLE_USER')"/>
+		<security:intercept-url pattern="/admin/attendance/team_info_detail.do" access="hasRole('ROLE_USER')"/>
 		<security:intercept-url pattern="/admin/team/team_auth.do" access="hasRole('ROLE_ADMIN')"/>
 		<security:intercept-url pattern="/login.do" access="permitAll"/>
 		<security:intercept-url pattern="/admin/attendance.do" access="hasRole('ROLE_USER')"/>
+		<security:intercept-url pattern="/project/*.do" access="hasRole('ROLE_USER')"/>
 		<security:intercept-url pattern="/admin/attendance/*.do" access="hasRole('ROLE_USER')"/>
 		<security:intercept-url pattern="/loginFail.do" access="permitAll"/>
 		<security:form-login 
@@ -50,6 +52,11 @@
 		
 		<security:access-denied-handler error-page="/access_denied_page.do"/>
 		
+		<security:custom-filter after="EXCEPTION_TRANSLATION_FILTER" ref="forAjaxAdminSessionFilter"/>
+		
 	</security:http>
 	
+	<bean id="forAjaxAdminSessionFilter" class="com.gogi.proj.security.filter.ForAjaxAdminSessionFilter">
+		<property name="ajaxHeader" value="AJAX"/>
+	</bean>
 </beans>

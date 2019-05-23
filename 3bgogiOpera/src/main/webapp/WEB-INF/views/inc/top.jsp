@@ -30,6 +30,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/renewal_page.css">
     
     <script src="${pageContext.request.contextPath}/resources/vendor/pace-master/pace.min.js"></script>
+    <script src="${pageContext.request.contextPath}/resources/libs/js/common_util.js"></script>
     <title> 3Bgogi Renewal Home Page</title>
     <style type="text/css">
     	*{
@@ -38,59 +39,122 @@
     </style>
 </head>
 <script type="text/javascript">
-	function returnWeek(date){
-		var week = ['일', '월', '화', '수', '목', '금', '토'];
+
+$.ajaxSetup({
+	
+    beforeSend: function(xhr) {
+        xhr.setRequestHeader("AJAX", true);
+     },
+     error: function(xhr, status, err) {
+        if (xhr.status == 401) {
+            alert("인증에 실패 했습니다. 로그인 페이지로 이동합니다.");
+            location.href = "/loginFail.do";
+         } else if (xhr.status == 403) {
+            alert("세션이 만료가 되었습니다. 로그인 페이지로 이동합니다.");
+              location.href = "/loginFail.do";
+         } else if (xhr.status == 500) {
+             alert(" 500에러 ");
+        }
+     }
+});
+	function openProjectWhenSetupPage(){
+		$.ajax({
+			url:"<c:url value='/project/project_alarm.do'/>",
+			method:"POST",
+			async:false,
+			success:function(data){
+				projectTopRewrite(data);
+				
+				setTimeout(function(){
+					openProjectWhenSetupPage();
+					clearTimeout(this);
+				}, 10000);
+				
+			}
+		});
+	}
+	
+	$.ajax({
+		url:"<c:url value='/project/project_alarm.do'/>",
+		method:"POST",
+		success:function(data){
+			projectTopRewrite(data);
+			openProjectWhenSetupPage();
+		}
+	});
+	
+	
+function projectTopRewrite(data){
+		var alarmCount = 0;
+		var projectList = "";
+		var projects = new Array();
 		
-		var dayOfWeek = week[new Date(date).getDay()];
+		$.each(data, function(idx){
+			
+			projectList+='<a href="#" class="list-group-item list-group-item-action showDetailProject" ';
+			
+			 if(this.proTopAlarmCheck === true){
+	            projectList+=' style="background: beige;"';
+	         }
+			 
+			projectList+=' id="setInterval'+this.proPk+'"   data-toggle="modal" data-target="#projectModal">'
+				+'<input type="hidden" value="'+this.proPk+'" name="proPk">'
+                +'<div class="notification-info">'
+                    +'<div class="notification-list-user-img">';
+                    
+                    if(this.proThumbnailImage != null){
+                    	
+                    	projectList+='<img src="${pageContext.request.contextPath}/resources/images/project_image/'+this.proThumbnailImage+'" class="user-avatar-md rounded-circle">';
+                    }
+                    
+                    projectList+='</div>'
+                    +'<div class="notification-list-user-block"><span class="notification-list-user-name" style="color:'+this.proTitleColor+'"> '+this.proTitle+'</span>';
+                    
+                    if(this.proDetail != null){
+                    	projectList+=this.proDetail;
+                    }
+                    
+             projectList+='<div class="notification-date">'+formatDate(this.proRegdate)+'</div>'
+                    +'</div>'
+                +'</div>'
+            +'</a>';
+            
+            if(this.proTopAlarmCheck === true){
+            	alarmCount++;
+            	var ProjectsVO = new Object();
+            	ProjectsVO.proPk = this.proPk;
+            	ProjectsVO.proTitle = this.proTitle;
+            	
+            	projects.push(JSON.stringify(ProjectsVO));
+            }
+            
+		});
 		
-		return dayOfWeek;
+		if(alarmCount == 0){
+			$("#alarmDiv").hide();
+			$(".indicator").hide();
+			
+			
+		}else{
+			alarmDivDisplay(projects);
+        	$(".indicator").show();
+        	console.log(projects);
+		}
+		
+		$(".topFixedProjectListDiv").html(projectList);
+		
+	}
+	
+	function alarmDivDisplay(data){
+		/* alarmDivHTML =data;
+		$("#alarmId").text(alarmDivHTML);
+		$("#alarmDiv").show(); */
+		
+		
+		window.open("<c:url value='/alarm/popup.do?projects="+encodeURI(data)+"'/>", "업무 알람" , "width=430, height=220, top=200, left=1200, scrollbars=no");
+		
 	}
 
-	function formatDate(date) {
-	    var d = new Date(date),
-	        month = '' + (d.getMonth() + 1),
-	        day = '' + d.getDate(),
-	        year = d.getFullYear();
-	
-	    if (month.length < 2) month = '0' + month;
-	    if (day.length < 2) day = '0' + day;
-	
-	    return [year, month, day].join('-');
-	}
-	
-	function formatDate_HH_MM(date) {
-	    var d = new Date(date);
-	    var hours = '' + d.getHours();
-	    var minutes = '' + d.getMinutes();
-	    
-	    if(hours < 10) hours="0"+hours;
-	    if(minutes < 10) minutes="0"+minutes;
-	    
-	    return hours+":"+minutes+"";
-	}
-	
-	function comma(num){
-		
-	    var len, point, str; 
-	    
-	    if(num==null){
-	    	str = 'No Data';
-	    	return str;
-	    }
-	    num = num + ""; 
-	    point = num.length % 3 ;
-	    len = num.length; 
-	   
-	    str = num.substring(0, point); 
-	    while (point < len) { 
-	        if (str != "") str += ","; 
-	        str += num.substring(point, point + 3); 
-	        point += 3; 
-	    } 
-	     
-	    return str;
-	 
-	}
 </script>
 <body>
     <!-- ============================================================== -->
@@ -114,40 +178,20 @@
                             </div>
                         </li>
                         <li class="nav-item dropdown notification">
-                            <a class="nav-link nav-icons" href="#" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-fw fa-bell"></i> <span class="indicator"></span></a>
+                            <a class="nav-link nav-icons" href="#" id="navbarDropdownMenuLink1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-fw fa-bell" id="alarmBellIcon"></i> <span class="indicator"></span></a>
                             <ul class="dropdown-menu dropdown-menu-right notification-dropdown">
                                 <li>
                                     <div class="notification-title"> 업무 알람 </div>
                                     <div class="notification-list">
-                                        <div class="list-group">
+                                        <div class="list-group topFixedProjectListDiv">
                                             <a href="#" class="list-group-item list-group-item-action active"   data-toggle="modal" data-target="#projectModal">
                                                 <div class="notification-info">
-                                                    <div class="notification-list-user-img"><img src="${pageContext.request.contextPath}/resources/images/avatar-2.jpg" alt="" class="user-avatar-md rounded-circle"></div>
-                                                    <div class="notification-list-user-block"><span class="notification-list-user-name"> 전기찬 - 시스템운영개발</span>리뉴얼 웹페이지 언젠가 제작 다 하겠지?
+                                                    <div class="notification-list-user-img">
+                                                    	<img src="${pageContext.request.contextPath}/resources/images/avatar-2.jpg" alt="" class="user-avatar-md rounded-circle">
                                                     </div>
-                                                </div>
-                                            </a>
-                                            <a href="#" class="list-group-item list-group-item-action">
-                                                <div class="notification-info">
-                                                    <div class="notification-list-user-img"><img src="${pageContext.request.contextPath}/resources/images/avatar-3.jpg" alt="" class="user-avatar-md rounded-circle"></div>
-                                                    <div class="notification-list-user-block"><span class="notification-list-user-name">John Abraham </span>is now following you
-                                                        <div class="notification-date">2 days ago</div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="#" class="list-group-item list-group-item-action">
-                                                <div class="notification-info">
-                                                    <div class="notification-list-user-img"><img src="${pageContext.request.contextPath}/resources/images/avatar-4.jpg" alt="" class="user-avatar-md rounded-circle"></div>
-                                                    <div class="notification-list-user-block"><span class="notification-list-user-name">Monaan Pechi</span> is watching your main repository
-                                                        <div class="notification-date">2 min ago</div>
-                                                    </div>
-                                                </div>
-                                            </a>
-                                            <a href="#" class="list-group-item list-group-item-action">
-                                                <div class="notification-info">
-                                                    <div class="notification-list-user-img"><img src="${pageContext.request.contextPath}/resources/images/avatar-5.jpg" alt="" class="user-avatar-md rounded-circle"></div>
-                                                    <div class="notification-list-user-block"><span class="notification-list-user-name">Jessica Caruso</span>accepted your invitation to join the team.
-                                                        <div class="notification-date">2 min ago</div>
+                                                    <div class="notification-list-user-block">
+                                                    	<span class="notification-list-user-name"> 전기찬 - 시스템운영개발</span>
+                                                    	리뉴얼 웹페이지 언젠가 제작 다 하겠지?
                                                     </div>
                                                 </div>
                                             </a>
@@ -155,7 +199,7 @@
                                     </div>
                                 </li>
                                 <li>
-                                    <div class="list-footer"><a href="<c:url value='/project/insert_project.do'/>"> 모든 알람 보기 </a></div>
+                                    <div class="list-footer"><a href="<c:url value='/project/insert_project.do'/>"> 모든 업무 보기 </a></div>
                                 </li>
                             </ul>
                         </li>

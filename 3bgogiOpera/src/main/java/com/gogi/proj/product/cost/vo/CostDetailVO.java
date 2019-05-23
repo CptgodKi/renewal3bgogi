@@ -2,6 +2,9 @@ package com.gogi.proj.product.cost.vo;
 
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.List;
+
+import com.gogi.proj.classification.code.vo.CostCodeVO;
 
 public class CostDetailVO {
 
@@ -19,16 +22,17 @@ public class CostDetailVO {
 	private Timestamp cdUpdate; //수정일
 	private Date cdRegdate; // 등록일
 	
+	//추가사항
+	private List<CostCodeVO> costCodeVOList;
 	
 	public CostDetailVO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-
 	public CostDetailVO(int cdPk, int ccFk, String cdName, int cdCost, boolean cdLossFlag, int cdLossRate,
 			boolean cdCompanyDiagnosis, String cdManufacturer, String cdStoreCompany, String cdMeasure, String cdRemark,
-			Timestamp cdUpdate, Date cdRegdate) {
+			Timestamp cdUpdate, Date cdRegdate, List<CostCodeVO> costCodeVOList) {
 		super();
 		this.cdPk = cdPk;
 		this.ccFk = ccFk;
@@ -43,138 +47,120 @@ public class CostDetailVO {
 		this.cdRemark = cdRemark;
 		this.cdUpdate = cdUpdate;
 		this.cdRegdate = cdRegdate;
+		this.costCodeVOList = costCodeVOList;
 	}
-
 
 	public int getCdPk() {
 		return cdPk;
 	}
 
-
 	public void setCdPk(int cdPk) {
 		this.cdPk = cdPk;
 	}
-
 
 	public int getCcFk() {
 		return ccFk;
 	}
 
-
 	public void setCcFk(int ccFk) {
 		this.ccFk = ccFk;
 	}
-
 
 	public String getCdName() {
 		return cdName;
 	}
 
-
 	public void setCdName(String cdName) {
 		this.cdName = cdName;
 	}
-
 
 	public int getCdCost() {
 		return cdCost;
 	}
 
-
 	public void setCdCost(int cdCost) {
 		this.cdCost = cdCost;
 	}
-
 
 	public boolean isCdLossFlag() {
 		return cdLossFlag;
 	}
 
-
 	public void setCdLossFlag(boolean cdLossFlag) {
 		this.cdLossFlag = cdLossFlag;
 	}
-
 
 	public int getCdLossRate() {
 		return cdLossRate;
 	}
 
-
 	public void setCdLossRate(int cdLossRate) {
 		this.cdLossRate = cdLossRate;
 	}
-
 
 	public boolean isCdCompanyDiagnosis() {
 		return cdCompanyDiagnosis;
 	}
 
-
 	public void setCdCompanyDiagnosis(boolean cdCompanyDiagnosis) {
 		this.cdCompanyDiagnosis = cdCompanyDiagnosis;
 	}
-
 
 	public String getCdManufacturer() {
 		return cdManufacturer;
 	}
 
-
 	public void setCdManufacturer(String cdManufacturer) {
 		this.cdManufacturer = cdManufacturer;
 	}
-
 
 	public String getCdStoreCompany() {
 		return cdStoreCompany;
 	}
 
-
 	public void setCdStoreCompany(String cdStoreCompany) {
 		this.cdStoreCompany = cdStoreCompany;
 	}
-
 
 	public String getCdMeasure() {
 		return cdMeasure;
 	}
 
-
 	public void setCdMeasure(String cdMeasure) {
 		this.cdMeasure = cdMeasure;
 	}
-
 
 	public String getCdRemark() {
 		return cdRemark;
 	}
 
-
 	public void setCdRemark(String cdRemark) {
 		this.cdRemark = cdRemark;
 	}
-
 
 	public Timestamp getCdUpdate() {
 		return cdUpdate;
 	}
 
-
 	public void setCdUpdate(Timestamp cdUpdate) {
 		this.cdUpdate = cdUpdate;
 	}
-
 
 	public Date getCdRegdate() {
 		return cdRegdate;
 	}
 
-
 	public void setCdRegdate(Date cdRegdate) {
 		this.cdRegdate = cdRegdate;
 	}
 
+	public List<CostCodeVO> getCostCodeVOList() {
+		return costCodeVOList;
+	}
+
+	public void setCostCodeVOList(List<CostCodeVO> costCodeVOList) {
+		this.costCodeVOList = costCodeVOList;
+	}
 
 	@Override
 	public String toString() {
@@ -182,7 +168,7 @@ public class CostDetailVO {
 				+ ", cdLossFlag=" + cdLossFlag + ", cdLossRate=" + cdLossRate + ", cdCompanyDiagnosis="
 				+ cdCompanyDiagnosis + ", cdManufacturer=" + cdManufacturer + ", cdStoreCompany=" + cdStoreCompany
 				+ ", cdMeasure=" + cdMeasure + ", cdRemark=" + cdRemark + ", cdUpdate=" + cdUpdate + ", cdRegdate="
-				+ cdRegdate + "]";
+				+ cdRegdate + ", costCodeVOList=" + costCodeVOList + "]";
 	}
-
+	
 }

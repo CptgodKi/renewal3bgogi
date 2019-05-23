@@ -199,11 +199,6 @@
 		                                        </div>
 	                                        </c:forEach>
                                         </c:if>
-                                        <c:if test="${empty productsVo.optionVOList }">
-                                        	<div class="form-group row">
-                                        		<h4>등록된 옵션이 없습니다.</h4>
-		                                    </div>
-                                        </c:if>
                                         <div class="form-group row text-right">
                                             <div class="col col-sm-11 col-lg-9 offset-sm-1 offset-lg-0">
                                                 <button type="button" class="btn btn-space btn-primary"> 수정 하기 </button>

@@ -171,7 +171,55 @@ public class AttendanceServiceImpl implements AttendanceService{
 	@Override
 	public List<AdminAttendanceVO> selectTotalAdminBreaksByDatesVO(DatesVO datesVO) {
 		// TODO Auto-generated method stub
-		return attendanceDAO.selectTotalAdminBreaksByDatesVO(datesVO);
+		
+		List<AdminAttendanceVO> list =  attendanceDAO.selectTotalAdminBreaksByDatesVO(datesVO);
+		AdminVO adminVO = adminService.selectAdminInfoByAdminPk(datesVO.getAdminPk());
+		java.util.Date toDay = new java.util.Date();
+		toDay.setHours(0);
+		toDay.setMinutes(0);
+		toDay.setSeconds(0);
+		
+		for(AdminAttendanceVO vo : list) {
+			
+			if(vo.getAaWorkStart() != null) {
+				if(vo.getDcDate().getTime() < toDay.getTime()) {					
+					if(vo.getAaWorkEnd() == null) {
+						
+						/*Date realDate = new Date(vo.getAaWorkStart().getTime());
+						
+						java.util.Date date = new java.util.Date(vo.getAaWorkStart().getTime());*/
+						
+						Timestamp ts = new Timestamp(vo.getAaWorkStart().getTime());
+						
+						Timestamp date = new Timestamp(vo.getAaWorkStart().getTime());
+						
+						if(adminVO.getAdminWorktime().equals("0830")) {
+							date.setHours(17);
+							date.setMinutes(30);
+							
+						}else if(adminVO.getAdminWorktime().equals("0900")) {
+							date.setHours(18);
+							date.setMinutes(0);
+							
+						}else if(adminVO.getAdminWorktime().equals("1400")) {
+							date.setHours(18);
+							date.setMinutes(0);
+							
+						}
+						
+						vo.setAaWorkEnd(new Timestamp(date.getTime()-ts.getTime() - (9*60*60*1000)));
+						
+					}
+					
+				}else {
+					
+				}
+				
+			}
+			
+		}
+		
+		return list;
 	}
 	
 }

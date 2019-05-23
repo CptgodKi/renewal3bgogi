@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.gogi.proj.admin.attendance.vo.AdminAttendanceVO;
@@ -24,6 +25,9 @@ public class AdminServiceImpl implements UserDetailsService{
 	
 	@Inject
 	private AdminDAOMybatis dao;
+	
+	@Autowired
+	private PasswordEncoder passEncoder;
 
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -100,6 +104,17 @@ public class AdminServiceImpl implements UserDetailsService{
 	public AdminVO selectAdminInfoByAdminPk(int adminPk) {
 		
 		return dao.selectAdminInfoByAdminPk(adminPk);
+	}
+	
+	public boolean checkAdminPassByAdminPk(String pass, int adminPk) {
+		
+		if(passEncoder.matches((CharSequence)pass, dao.selectAdminPassByAdminPk(adminPk))) {
+			return true;
+			
+		}else {
+			return false;
+			
+		}
 	}
 	
 }

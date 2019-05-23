@@ -171,18 +171,19 @@
 																				<button type="button" class="btn btn-success btn-sm" style="border-radius: 40px; background-color:#e9ba41; border-color: #e9ba41;" ></button>
 																			</c:if>
 																		</td>
+																		
 																	<td> ${aalist.adminName }</td>
 																	<td>${toDayFormat }</td>
 																	<td>
 																		<c:if test="${!empty aalist.aaWorkStart }">
 																			<fmt:formatDate value="${aalist.aaWorkStart }" pattern="HH:mm"/>
 																			<c:if test="${attendanceRank < 4 }">																			
-																				<img style="width:20px;" alt="출근순위" src="${pageContext.request.contextPath}/resources/images/attendance_image/number${attendanceRank}.png">
+																				<br><img style="width:30px;" alt="출근순위" src="${pageContext.request.contextPath}/resources/images/attendance_image/number${attendanceRank}.png">
 																			</c:if>
 																			<c:set var="attendanceRank" value="${attendanceRank+1 }"></c:set>
 																		</c:if>
 																		<c:if test="${empty aalist.aaWorkStart and !empty aalist.workBreaks}">
-																			휴무일
+																			휴무일 [${aalist.workBreaks }]
 																		</c:if>
 																		<c:if test="${empty aalist.aaWorkStart and empty aalist.workBreaks}">
 																			-
@@ -245,7 +246,7 @@
 																				<fmt:formatDate value="${aalist.aaWorkStart }" pattern="HH:mm"/>
 																			</c:if>
 																			<c:if test="${empty aalist.aaWorkStart and !empty aalist.workBreaks}">
-																				휴무일
+																				휴무일 [${aalist.workBreaks }]
 																			</c:if>
 																			<c:if test="${empty aalist.aaWorkStart and empty aalist.workBreaks}">
 																				-
@@ -309,7 +310,7 @@
 																				<fmt:formatDate value="${aalist.aaWorkStart }" pattern="HH:mm"/>
 																			</c:if>
 																			<c:if test="${empty aalist.aaWorkStart and !empty aalist.workBreaks}">
-																				휴무일
+																				휴무일 [${aalist.workBreaks }]
 																			</c:if>
 																			<c:if test="${empty aalist.aaWorkStart and empty aalist.workBreaks}">
 																				-
@@ -373,7 +374,7 @@
 																				<fmt:formatDate value="${aalist.aaWorkStart }" pattern="HH:mm"/>
 																			</c:if>
 																			<c:if test="${empty aalist.aaWorkStart and !empty aalist.workBreaks}">
-																				휴무일
+																				휴무일 [${aalist.workBreaks }]
 																			</c:if>
 																			<c:if test="${empty aalist.aaWorkStart and empty aalist.workBreaks}">
 																				-

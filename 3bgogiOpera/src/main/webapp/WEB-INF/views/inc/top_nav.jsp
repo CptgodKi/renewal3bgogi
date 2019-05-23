@@ -23,17 +23,7 @@
                                             <a class="nav-link" href="<c:url value='/admin/attendance/admin_attendance_status.do'/>"> 출결 관리 </a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-1-2" aria-controls="submenu-1-2">업무 일지</a>
-                                            <div id="submenu-1-2" class="collapse submenu" style="">
-                                                <ul class="nav flex-column">
-                                                    <li class="nav-item">
-                                                        <a class="nav-link" href="javascript:void(0);"> 오늘의 업무 </a>
-                                                    </li>
-                                                    <li class="nav-item">
-                                                        <a class="nav-link" href="<c:url value='/project/insert_project.do'/>">새로운 업무 등록</a>
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                            <a class="nav-link" href="<c:url value='/project/projects.do'/>">업무</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="javascript:void(0);">업무 진행도 </a>
@@ -111,7 +101,7 @@
                                                         <a class="nav-link" href="<c:url value='/products/insert/cost_detail.do'/>"> 원가 상세사항 입력 </a>
                                                     </li>
                                                     <li class="nav-item">
-                                                        <a class="nav-link" href="<c:url value='/products/insert/cost_option.do'/>"> 다중 원가 입력 </a>
+                                                        <a class="nav-link" href="<c:url value='/products/insert/costs.do'/>"> 다중 원가 입력 </a>
                                                     </li>
                                                     <li class="nav-item">
                                                         <a class="nav-link" href="<c:url value='/products/insert/product.do'/>"> 상품 등록 </a>

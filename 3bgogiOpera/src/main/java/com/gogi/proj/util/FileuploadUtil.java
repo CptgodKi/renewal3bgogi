@@ -28,6 +28,7 @@ public class FileuploadUtil {
 	public static final int UPLOAD_FILE=1; 	//자료실 업로드
 	public static final int ORDER_EXCEL=2;  //엑셀 임시 저장
 	public static final int IMAGE_UPLOAD=3; //이미지 업로드
+	public static final int UPLOAD_IMAGE=4; //자료실 이미지
 	
 	@Resource(name="fileUploadProperties")
 	private Properties fileProperties;
@@ -71,7 +72,7 @@ public class FileuploadUtil {
 				
 				//결과 저장
 				Map<String, Object> resultMap=new HashMap<String, Object>();
-				resultMap.put("originalFilename", ofileName);
+				resultMap.put("real", ofileName);
 				resultMap.put("filename", fileName);
 				resultMap.put("fileSize", fileSize);
 				
@@ -83,36 +84,55 @@ public class FileuploadUtil {
 		return fileoName;
 	}
 	
-	public String fileupload2(HttpServletRequest request, int uploadGb) 
+	public List<Map<String, Object>> fileupload2(HttpServletRequest request, int uploadGb) 
 			throws IllegalStateException, IOException {
 		
 		logger.info("file upload..");
 		
-		//파일업로드 처리
-		MultipartHttpServletRequest multipartRequest 
-			= (MultipartHttpServletRequest) request;
+		//파일 업로드 처리
+		MultipartHttpServletRequest multipartRequest=(MultipartHttpServletRequest)request;
+
+		Map<String, MultipartFile> fileMap=multipartRequest.getFileMap();
 		
-		String fileName = null;
+		//file정보 결과를 저장할 list
+		List<Map<String, Object>> list=new ArrayList<Map<String,Object>>();
 		
-		Iterator<String> iter =multipartRequest.getFileNames();
+		Iterator<String> iter=fileMap.keySet().iterator();
 		
-		MultipartFile multipartFile = null;
 		while(iter.hasNext()) {
-			multipartFile = multipartRequest.getFile(iter.next());
-			if(multipartFile.isEmpty() == false) {
-				logger.info("--files--");
-				logger.info("name : {}", multipartFile.getName());
-				fileName = multipartFile.getOriginalFilename();
-				logger.info("fileName = {}", multipartFile.getOriginalFilename());
-				logger.info("size : {}", multipartFile.getSize());
-				logger.info("--finished--");
+			String key=iter.next();
+			MultipartFile tempFile=fileMap.get(key);
+			//=>업로드 된 파일을 임시파일 형태로 제공
+			System.out.println("in iterator");
+			
+			//업로드 된 경우
+			if(!tempFile.isEmpty()) {
+				System.out.println("not empty");
+				String ofileName=tempFile.getOriginalFilename();
+				String fileName=getUniqueFileName(ofileName);
+				String extType = getExtType(ofileName);
 				
+				long fileSize=tempFile.getSize();
 				
-			}
-		}
-	
+				//업로드 처리
+				String uploadPath=getUploadPath(request, uploadGb);
+				File file=new File(uploadPath, fileName);
+				tempFile.transferTo(file);	//실제 업로드 처리
+				
+				//결과 저장
+				Map<String, Object> resultMap=new HashMap<String, Object>();
+				resultMap.put("oriFileName", ofileName);
+				resultMap.put("uniFileName", fileName);
+				resultMap.put("fileSize", fileSize);
+				resultMap.put("fileExtType", extType);
+				
+				list.add(resultMap);
+				
+			}//if
+			
+		}//while
 		
-		return fileName;
+		return list;
 	}
 
 	public String getUploadPath(HttpServletRequest request, int uploadGb) {
@@ -127,7 +147,10 @@ public class FileuploadUtil {
 				upPath=fileProperties.getProperty("file.upload.order_excel.path.test");				
 			}else if(uploadGb==IMAGE_UPLOAD) {
 				upPath=fileProperties.getProperty("imageFile.upload.path.test");				
+			}else if(uploadGb==UPLOAD_IMAGE) {
+				upPath=fileProperties.getProperty("file.upload.upload_image.path.test");				
 			}
+			
 			logger.info("test 경로 : "+upPath);
 		}else {
 			//배포시 경로
@@ -137,7 +160,10 @@ public class FileuploadUtil {
 				upPath=fileProperties.getProperty("file.upload.order_excel.path");				
 			}else if(uploadGb==IMAGE_UPLOAD) {
 				upPath=fileProperties.getProperty("imageFile.upload.path");				
+			}else if(uploadGb==UPLOAD_IMAGE) {
+				upPath=fileProperties.getProperty("file.upload.upload_image.path");				
 			}
+			
 			logger.info("배포시 경로 : "+upPath);
 			
 			//실제 물리적인 경로 구하기
@@ -159,11 +185,33 @@ public class FileuploadUtil {
 		return fileName;
 	}
 	
+	private String getExtType(String ofileName) {
+		
+		int idx=ofileName.lastIndexOf(".");
+		String ext=ofileName.substring(idx);
+		
+		return ext;
+	}
+	
 	private String getCurrentTime() {
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmssSSS");
 		
 		Date d=new Date();
 		
 		return sdf.format(d);
+	}
+	
+	public boolean deleteFile(String path, String fileName) {
+		
+		File file = new File(path+"/"+fileName);
+		
+		if(file.exists()) {
+			file.delete();
+			return true;
+			
+		}else {
+			return false;
+			
+		}
 	}
 }

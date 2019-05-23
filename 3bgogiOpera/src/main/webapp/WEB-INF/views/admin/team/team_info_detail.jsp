@@ -170,7 +170,6 @@
 				
 			});
 			
-			
 			$("#formatMonth").change(function(){
 				var formatMonth = $(this).val();
 				
@@ -204,7 +203,7 @@
 							
 							adminBreaksList += "<tr";
 							
-							if( toDayFormat == dcDates) adminBreaksList+= "style='color:red;'";
+							if( toDayFormat == dcDates) adminBreaksList+= " style='color:red;'";
 								
 							adminBreaksList +=">"
 								+"<td>"+dcDates+"</td>"
@@ -225,10 +224,10 @@
 							
 							
 								if(this.aaWorkStart == null && this.aaWorkEnd != null && dcDates == toDayFormat && this.workBreaks == null) adminBreaksList += "출근 전";
-								if(this.aaWorkStart == null && this.aaWorkEnd != null && dcDates == toDayFormat && this.workBreaks != null) adminBreaksList += this.workBreaks;
+								if(this.aaWorkStart == null && this.aaWorkEnd == null && dcDates == toDayFormat && this.workBreaks != null) adminBreaksList += this.workBreaks;
 								if(this.aaWorkStart != null && this.aaWorkEnd != null && dcDates == toDayFormat && this.workBreaks == null) adminBreaksList += "퇴근 전";
 								if(this.aaWorkStart != null && this.aaWorkEnd != null  && this.workTime != null) adminBreaksList += formatDate_HH_MM(this.aaWorkEnd);
-								if(this.aaWorkStart != null && this.aaWorkEnd != null  && this.workTime != null && dcDates < toDayFormat && this.workTime == null) adminBreaksList +="임의 계산";
+								if(this.aaWorkStart != null && this.aaWorkEnd != null  && this.workTime == null && dcDates < toDayFormat && this.workTime == null) adminBreaksList +="임의 계산";
 								if(this.aaWorkStart == null && dcDates > toDayFormat && this.workBreaks == null) adminBreaksList +="-";
 								if(this.aaWorkStart == null && dcDates > toDayFormat && this.workBreaks != null) adminBreaksList += this.workBreaks;
 								if(this.aaWorkStart == null && dcDates < toDayFormat && this.workBreaks == null) adminBreaksList += "데이터 없음";
@@ -503,7 +502,7 @@
 													</table>
                                             </div>
                                         </div>
-                                        <nav aria-label="Page navigation example" style="text-align: center;">
+                                        <!-- <nav aria-label="Page navigation example" style="text-align: center;">
                                             <ul class="pagination" style="display: -webkit-inline-box;">
                                                 <li class="page-item"><a class="page-link" href="#">이전</a></li>
                                                 <li class="page-item active"><a class="page-link" href="#">1</a></li>
@@ -511,7 +510,7 @@
                                                 <li class="page-item"><a class="page-link" href="#">3</a></li>
                                                 <li class="page-item"><a class="page-link" href="#">다음</a></li>
                                             </ul>
-                                        </nav>
+                                        </nav> -->
                                     </div>
                                     <div class="tab-pane fade" id="pills-packages" role="tabpanel" aria-labelledby="pills-packages-tab">
                                         <div class="card">

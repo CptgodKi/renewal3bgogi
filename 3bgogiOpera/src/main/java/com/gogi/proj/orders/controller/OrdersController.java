@@ -24,6 +24,7 @@ import com.gogi.proj.excel.ReadOrderExcel;
 import com.gogi.proj.orders.model.OrdersService;
 import com.gogi.proj.orders.vo.OrdersVO;
 import com.gogi.proj.util.FileuploadUtil;
+import com.mysql.jdbc.SQLError;
 
 @Controller
 @RequestMapping(value="/orders")
@@ -72,7 +73,7 @@ public class OrdersController {
 			
 			fileName = fileUploadUtil.fileupload(request, FileuploadUtil.ORDER_EXCEL);
 			
-		} catch (IllegalStateException | IOException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			logger.info("upload error! checking fileExtension or excel file");
 			logger.info(e.getMessage());
@@ -80,6 +81,8 @@ public class OrdersController {
 			
 			model.addAttribute("msg", msg);
 			model.addAttribute("url",url);
+			
+			return "common/message";
 		}
 		
 		logger.info("checking fileName = {}", fileName);
@@ -90,11 +93,13 @@ public class OrdersController {
 
 			orderList = readOrderExcel.readOrderExcelDataToXLS(fileName);
 			
-		}catch(Exception e) {
-			msg = "데이터 입력 오류.";
+		}catch(NullPointerException nulle) {
+			msg = "데이터 값이 없습니다.";
 			
 			model.addAttribute("msg", msg);
 			model.addAttribute("url",url);
+			return "common/message";
+			
 		}
 		
 		int [] result = ordersService.insertOrderData(orderList);

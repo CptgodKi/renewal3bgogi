@@ -10,7 +10,7 @@ public class CheckFileExtension {
 	private static final int TYPE_JPE = 5;
 	private static final int TYPE_ANOTHER = 6;
 	
-	public int checkFileExtension(String fileName) {
+	/*public int checkFileExtension(String fileName) {
 		
 		int index = fileName.lastIndexOf(".");
 		
@@ -33,6 +33,6 @@ public class CheckFileExtension {
 			return TYPE_ANOTHER;
 		}
 		
-	}
+	}*/
 	
 }

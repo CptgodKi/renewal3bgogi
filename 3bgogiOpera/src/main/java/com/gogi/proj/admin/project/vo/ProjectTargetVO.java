@@ -6,28 +6,40 @@ import java.sql.Timestamp;
 public class ProjectTargetVO {
 
 	private int ptPk; //업무 대상자 고유 번호
-	private int proFk; //업무 고유 번호
-	private int adminFk; // 관리자 고유 번호
+	private int ptProFk; //업무 고유 번호
+	private int ptAdminFk; // 관리자 고유 번호
 	private boolean ptDisplayFlag; // 업무 검수자 여부
-	private boolean ptCrateFlag; // 업무 만든이 여부
+	private boolean ptCreateFlag; // 업무 만든이 여부
 	private Date ptAlarmCheckDate; // 알람 체크일
+	private boolean ptTopAlarmFlag; // 상단 고정 여부
 	private Timestamp ptRegdate; // 업무대상자 등록일 db상으로는 DATETIME으로 구성.
+	
+	//추가사항
+	//자기 확인용 
+	private boolean proIdentify;
+	private String adminName;
+	private boolean proInc;
 	
 	public ProjectTargetVO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public ProjectTargetVO(int ptPk, int proFk, int adminFk, boolean ptDisplayFlag, boolean ptCrateFlag,
-			Date ptAlarmCheckDate, Timestamp ptRegdate) {
+	public ProjectTargetVO(int ptPk, int ptProFk, int ptAdminFk, boolean ptDisplayFlag, boolean ptCreateFlag,
+			Date ptAlarmCheckDate, boolean ptTopAlarmFlag, Timestamp ptRegdate, boolean proIdentify, String adminName,
+			boolean proInc) {
 		super();
 		this.ptPk = ptPk;
-		this.proFk = proFk;
-		this.adminFk = adminFk;
+		this.ptProFk = ptProFk;
+		this.ptAdminFk = ptAdminFk;
 		this.ptDisplayFlag = ptDisplayFlag;
-		this.ptCrateFlag = ptCrateFlag;
+		this.ptCreateFlag = ptCreateFlag;
 		this.ptAlarmCheckDate = ptAlarmCheckDate;
+		this.ptTopAlarmFlag = ptTopAlarmFlag;
 		this.ptRegdate = ptRegdate;
+		this.proIdentify = proIdentify;
+		this.adminName = adminName;
+		this.proInc = proInc;
 	}
 
 	public int getPtPk() {
@@ -38,20 +50,20 @@ public class ProjectTargetVO {
 		this.ptPk = ptPk;
 	}
 
-	public int getProFk() {
-		return proFk;
+	public int getPtProFk() {
+		return ptProFk;
 	}
 
-	public void setProFk(int proFk) {
-		this.proFk = proFk;
+	public void setPtProFk(int ptProFk) {
+		this.ptProFk = ptProFk;
 	}
 
-	public int getAdminFk() {
-		return adminFk;
+	public int getPtAdminFk() {
+		return ptAdminFk;
 	}
 
-	public void setAdminFk(int adminFk) {
-		this.adminFk = adminFk;
+	public void setPtAdminFk(int ptAdminFk) {
+		this.ptAdminFk = ptAdminFk;
 	}
 
 	public boolean isPtDisplayFlag() {
@@ -62,12 +74,12 @@ public class ProjectTargetVO {
 		this.ptDisplayFlag = ptDisplayFlag;
 	}
 
-	public boolean isPtCrateFlag() {
-		return ptCrateFlag;
+	public boolean isPtCreateFlag() {
+		return ptCreateFlag;
 	}
 
-	public void setPtCrateFlag(boolean ptCrateFlag) {
-		this.ptCrateFlag = ptCrateFlag;
+	public void setPtCreateFlag(boolean ptCreateFlag) {
+		this.ptCreateFlag = ptCreateFlag;
 	}
 
 	public Date getPtAlarmCheckDate() {
@@ -78,6 +90,14 @@ public class ProjectTargetVO {
 		this.ptAlarmCheckDate = ptAlarmCheckDate;
 	}
 
+	public boolean isPtTopAlarmFlag() {
+		return ptTopAlarmFlag;
+	}
+
+	public void setPtTopAlarmFlag(boolean ptTopAlarmFlag) {
+		this.ptTopAlarmFlag = ptTopAlarmFlag;
+	}
+
 	public Timestamp getPtRegdate() {
 		return ptRegdate;
 	}
@@ -86,11 +106,36 @@ public class ProjectTargetVO {
 		this.ptRegdate = ptRegdate;
 	}
 
+	public boolean isProIdentify() {
+		return proIdentify;
+	}
+
+	public void setProIdentify(boolean proIdentify) {
+		this.proIdentify = proIdentify;
+	}
+
+	public String getAdminName() {
+		return adminName;
+	}
+
+	public void setAdminName(String adminName) {
+		this.adminName = adminName;
+	}
+
+	public boolean isProInc() {
+		return proInc;
+	}
+
+	public void setProInc(boolean proInc) {
+		this.proInc = proInc;
+	}
+
 	@Override
 	public String toString() {
-		return "ProjectTargetVO [ptPk=" + ptPk + ", proFk=" + proFk + ", adminFk=" + adminFk + ", ptDisplayFlag="
-				+ ptDisplayFlag + ", ptCrateFlag=" + ptCrateFlag + ", ptAlarmCheckDate=" + ptAlarmCheckDate
-				+ ", ptRegdate=" + ptRegdate + "]";
+		return "ProjectTargetVO [ptPk=" + ptPk + ", ptProFk=" + ptProFk + ", ptAdminFk=" + ptAdminFk
+				+ ", ptDisplayFlag=" + ptDisplayFlag + ", ptCreateFlag=" + ptCreateFlag + ", ptAlarmCheckDate="
+				+ ptAlarmCheckDate + ", ptTopAlarmFlag=" + ptTopAlarmFlag + ", ptRegdate=" + ptRegdate
+				+ ", proIdentify=" + proIdentify + ", adminName=" + adminName + ", proInc=" + proInc + "]";
 	}
 
 }

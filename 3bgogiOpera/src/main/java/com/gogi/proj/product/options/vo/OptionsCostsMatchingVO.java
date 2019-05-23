@@ -9,6 +9,7 @@ public class OptionsCostsMatchingVO {
 	private int ocmGram; //재계산 gram
 	private int ocmProductionDivide; //나누기
 	private int ocmEach; //개수
+	private int ocmRealGram; // 쟤게산 gram을 나눈 뒤 gram 수
 	
 	//추가사항
 	private String costName; //원가명
@@ -20,7 +21,7 @@ public class OptionsCostsMatchingVO {
 	}
 
 	public OptionsCostsMatchingVO(int ocmPk, int costFk, int optionFk, int ocmGramRecalFlag, int ocmGram,
-			int ocmProductionDivide, int ocmEach, String costName, int totalPrice) {
+			int ocmProductionDivide, int ocmEach, int ocmRealGram, String costName, int totalPrice) {
 		super();
 		this.ocmPk = ocmPk;
 		this.costFk = costFk;
@@ -29,6 +30,7 @@ public class OptionsCostsMatchingVO {
 		this.ocmGram = ocmGram;
 		this.ocmProductionDivide = ocmProductionDivide;
 		this.ocmEach = ocmEach;
+		this.ocmRealGram = ocmRealGram;
 		this.costName = costName;
 		this.totalPrice = totalPrice;
 	}
@@ -89,6 +91,14 @@ public class OptionsCostsMatchingVO {
 		this.ocmEach = ocmEach;
 	}
 
+	public int getOcmRealGram() {
+		return ocmRealGram;
+	}
+
+	public void setOcmRealGram(int ocmRealGram) {
+		this.ocmRealGram = ocmRealGram;
+	}
+
 	public String getCostName() {
 		return costName;
 	}
@@ -109,8 +119,8 @@ public class OptionsCostsMatchingVO {
 	public String toString() {
 		return "OptionsCostsMatchingVO [ocmPk=" + ocmPk + ", costFk=" + costFk + ", optionFk=" + optionFk
 				+ ", ocmGramRecalFlag=" + ocmGramRecalFlag + ", ocmGram=" + ocmGram + ", ocmProductionDivide="
-				+ ocmProductionDivide + ", ocmEach=" + ocmEach + ", costName=" + costName + ", totalPrice=" + totalPrice
-				+ "]";
+				+ ocmProductionDivide + ", ocmEach=" + ocmEach + ", ocmRealGram=" + ocmRealGram + ", costName="
+				+ costName + ", totalPrice=" + totalPrice + "]";
 	}
-
+	
 }

@@ -5,9 +5,9 @@ import java.sql.Timestamp;
 public class ProjectCommentVO {
 
 	private int pcPk;
-	private int proFk;
-	private int adminFk;
-	private int pdFk;
+	private int pcProFk;
+	private int pcAdminFk;
+	private int pcPdFk;
 	private String pcDetail;
 	private Timestamp pcUpdate;
 	private Timestamp pcRegdate;
@@ -17,13 +17,13 @@ public class ProjectCommentVO {
 		// TODO Auto-generated constructor stub
 	}
 
-	public ProjectCommentVO(int pcPk, int proFk, int adminFk, int pdFk, String pcDetail, Timestamp pcUpdate,
+	public ProjectCommentVO(int pcPk, int pcProFk, int pcAdminFk, int pcPdFk, String pcDetail, Timestamp pcUpdate,
 			Timestamp pcRegdate) {
 		super();
 		this.pcPk = pcPk;
-		this.proFk = proFk;
-		this.adminFk = adminFk;
-		this.pdFk = pdFk;
+		this.pcProFk = pcProFk;
+		this.pcAdminFk = pcAdminFk;
+		this.pcPdFk = pcPdFk;
 		this.pcDetail = pcDetail;
 		this.pcUpdate = pcUpdate;
 		this.pcRegdate = pcRegdate;
@@ -37,28 +37,28 @@ public class ProjectCommentVO {
 		this.pcPk = pcPk;
 	}
 
-	public int getProFk() {
-		return proFk;
+	public int getPcProFk() {
+		return pcProFk;
 	}
 
-	public void setProFk(int proFk) {
-		this.proFk = proFk;
+	public void setPcProFk(int pcProFk) {
+		this.pcProFk = pcProFk;
 	}
 
-	public int getAdminFk() {
-		return adminFk;
+	public int getPcAdminFk() {
+		return pcAdminFk;
 	}
 
-	public void setAdminFk(int adminFk) {
-		this.adminFk = adminFk;
+	public void setPcAdminFk(int pcAdminFk) {
+		this.pcAdminFk = pcAdminFk;
 	}
 
-	public int getPdFk() {
-		return pdFk;
+	public int getPcPdFk() {
+		return pcPdFk;
 	}
 
-	public void setPdFk(int pdFk) {
-		this.pdFk = pdFk;
+	public void setPcPdFk(int pcPdFk) {
+		this.pcPdFk = pcPdFk;
 	}
 
 	public String getPcDetail() {
@@ -87,8 +87,8 @@ public class ProjectCommentVO {
 
 	@Override
 	public String toString() {
-		return "ProjectCommentVO [pcPk=" + pcPk + ", proFk=" + proFk + ", adminFk=" + adminFk + ", pdFk=" + pdFk
-				+ ", pcDetail=" + pcDetail + ", pcUpdate=" + pcUpdate + ", pcRegdate=" + pcRegdate + "]";
+		return "ProjectCommentVO [pcPk=" + pcPk + ", pcProFk=" + pcProFk + ", pcAdminFk=" + pcAdminFk + ", pcPdFk="
+				+ pcPdFk + ", pcDetail=" + pcDetail + ", pcUpdate=" + pcUpdate + ", pcRegdate=" + pcRegdate + "]";
 	}
 
 }

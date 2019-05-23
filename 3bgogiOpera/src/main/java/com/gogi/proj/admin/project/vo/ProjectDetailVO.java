@@ -5,36 +5,41 @@ import java.sql.Timestamp;
 public class ProjectDetailVO {
 
 	private int pdPk; //업무 상세사항 고유 번호
-	private int ptFk; //업무 대상자 고유 번호
+	private int pdProFk; //업무 대상자 고유 번호
 	private String pdDetail; // 업무 완료 사항
 	private String pdFile1; //첨부 파일1
-	private String pdFile2;
-	private String pdFile3;
-	private String pdfile4; //첨부 파일4
+	private String pdFileRealName;
+	private String pdFileExtType;
 	private boolean pdDisplayFlag; // 보이기 여부
 	private boolean pdImportant;
+	private int pdCheckAdminPk; // 업무 삭제 시 본인 확인용
 	private int pdSorting; // 업무 정렬
 	private Timestamp pdFinishTime; //업무 완료일
+	
+	//추가사항
+	private String pdAdmin;
 	
 	public ProjectDetailVO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public ProjectDetailVO(int pdPk, int ptFk, String pdDetail, String pdFile1, String pdFile2, String pdFile3,
-			String pdfile4, boolean pdDisplayFlag, boolean pdImportant, int pdSorting, Timestamp pdFinishTime) {
+	public ProjectDetailVO(int pdPk, int pdProFk, String pdDetail, String pdFile1, String pdFileRealName,
+			String pdFileExtType, boolean pdDisplayFlag, boolean pdImportant, int pdCheckAdminPk, int pdSorting,
+			Timestamp pdFinishTime, String pdAdmin) {
 		super();
 		this.pdPk = pdPk;
-		this.ptFk = ptFk;
+		this.pdProFk = pdProFk;
 		this.pdDetail = pdDetail;
 		this.pdFile1 = pdFile1;
-		this.pdFile2 = pdFile2;
-		this.pdFile3 = pdFile3;
-		this.pdfile4 = pdfile4;
+		this.pdFileRealName = pdFileRealName;
+		this.pdFileExtType = pdFileExtType;
 		this.pdDisplayFlag = pdDisplayFlag;
 		this.pdImportant = pdImportant;
+		this.pdCheckAdminPk = pdCheckAdminPk;
 		this.pdSorting = pdSorting;
 		this.pdFinishTime = pdFinishTime;
+		this.pdAdmin = pdAdmin;
 	}
 
 	public int getPdPk() {
@@ -45,12 +50,12 @@ public class ProjectDetailVO {
 		this.pdPk = pdPk;
 	}
 
-	public int getPtFk() {
-		return ptFk;
+	public int getPdProFk() {
+		return pdProFk;
 	}
 
-	public void setPtFk(int ptFk) {
-		this.ptFk = ptFk;
+	public void setPdProFk(int pdProFk) {
+		this.pdProFk = pdProFk;
 	}
 
 	public String getPdDetail() {
@@ -69,28 +74,20 @@ public class ProjectDetailVO {
 		this.pdFile1 = pdFile1;
 	}
 
-	public String getPdFile2() {
-		return pdFile2;
+	public String getPdFileRealName() {
+		return pdFileRealName;
 	}
 
-	public void setPdFile2(String pdFile2) {
-		this.pdFile2 = pdFile2;
+	public void setPdFileRealName(String pdFileRealName) {
+		this.pdFileRealName = pdFileRealName;
 	}
 
-	public String getPdFile3() {
-		return pdFile3;
+	public String getPdFileExtType() {
+		return pdFileExtType;
 	}
 
-	public void setPdFile3(String pdFile3) {
-		this.pdFile3 = pdFile3;
-	}
-
-	public String getPdfile4() {
-		return pdfile4;
-	}
-
-	public void setPdfile4(String pdfile4) {
-		this.pdfile4 = pdfile4;
+	public void setPdFileExtType(String pdFileExtType) {
+		this.pdFileExtType = pdFileExtType;
 	}
 
 	public boolean isPdDisplayFlag() {
@@ -109,6 +106,14 @@ public class ProjectDetailVO {
 		this.pdImportant = pdImportant;
 	}
 
+	public int getPdCheckAdminPk() {
+		return pdCheckAdminPk;
+	}
+
+	public void setPdCheckAdminPk(int pdCheckAdminPk) {
+		this.pdCheckAdminPk = pdCheckAdminPk;
+	}
+
 	public int getPdSorting() {
 		return pdSorting;
 	}
@@ -125,12 +130,21 @@ public class ProjectDetailVO {
 		this.pdFinishTime = pdFinishTime;
 	}
 
+	public String getPdAdmin() {
+		return pdAdmin;
+	}
+
+	public void setPdAdmin(String pdAdmin) {
+		this.pdAdmin = pdAdmin;
+	}
+
 	@Override
 	public String toString() {
-		return "ProjectDetailVO [pdPk=" + pdPk + ", ptFk=" + ptFk + ", pdDetail=" + pdDetail + ", pdFile1=" + pdFile1
-				+ ", pdFile2=" + pdFile2 + ", pdFile3=" + pdFile3 + ", pdfile4=" + pdfile4 + ", pdDisplayFlag="
-				+ pdDisplayFlag + ", pdImportant=" + pdImportant + ", pdSorting=" + pdSorting + ", pdFinishTime="
-				+ pdFinishTime + "]";
+		return "ProjectDetailVO [pdPk=" + pdPk + ", pdProFk=" + pdProFk + ", pdDetail=" + pdDetail + ", pdFile1="
+				+ pdFile1 + ", pdFileRealName=" + pdFileRealName + ", pdFileExtType=" + pdFileExtType
+				+ ", pdDisplayFlag=" + pdDisplayFlag + ", pdImportant=" + pdImportant + ", pdCheckAdminPk="
+				+ pdCheckAdminPk + ", pdSorting=" + pdSorting + ", pdFinishTime=" + pdFinishTime + ", pdAdmin="
+				+ pdAdmin + "]";
 	}
 
 }

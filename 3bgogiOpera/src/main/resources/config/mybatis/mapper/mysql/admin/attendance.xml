@@ -17,6 +17,7 @@
 		FROM admin_attendance
 		WHERE admin_fk = #{adminPk}
 		ORDER BY aa_work_start DESC
+		
 	</select>
 	
 	<insert id="insertAdminAttendanceStartWork" parameterType="int">
@@ -67,12 +68,18 @@
 				WHEN ad.ad_weeks = WEEKDAY(NOW()) = 4 THEN ad.ad_title
 				WHEN ad.ad_weeks = WEEKDAY(NOW()) = 5 THEN ad.ad_title
 				WHEN ad.ad_weeks = WEEKDAY(NOW()) = 6 THEN ad.ad_title
+				WHEN ad.ad_weeks = WEEKDAY(NOW())
+				<![CDATA[
+					< 
+				]]> 
+				0 THEN ad.ad_title
 				WHEN NOW() BETWEEN ad.ad_start AND ad.ad_end THEN ad.ad_title
 				ELSE null
-			END AS work_breaks
+			END AS work_breaks,
+			TIME_TO_SEC(str_to_date(concat(date_format(inne.aa_work_start, '%Y-%m-%d'),' ',inne.admin_worktime), '%Y-%m-%d %H%i')) - TIME_TO_SEC(aa_work_start) AS attendance_rank
 		FROM
 		(
-			SELECT admin.admin_pk, jc.jc_type, admin.admin_name, admin.jc_fk, aa.aa_work_start, aa.aa_work_end
+			SELECT admin.admin_pk, jc.jc_type, admin.admin_name, admin.jc_fk, aa.aa_work_start, aa.aa_work_end, admin.admin_worktime
 			FROM `admins` AS admin 
 			LEFT OUTER JOIN `admin_attendance` AS aa
 			ON admin.admin_pk = aa.admin_fk
@@ -83,10 +90,13 @@
 		) AS inne
 		LEFT OUTER JOIN `admin_daysoff` AS ad
 		ON inne.admin_pk = ad.admin_fk
-		AND if(ad_weeks IS NOT NULL, WEEKDAY(NOW())=ad_weeks, NOW() BETWEEN ad.ad_start AND ad.ad_end)
-		AND ad.ad_flag > 0
+		AND (if(ad_weeks IS NOT NULL, WEEKDAY(NOW())=ad_weeks, NOW() BETWEEN ad.ad_start AND ad.ad_end)
+		<![CDATA[
+	        OR (ad_weeks = -1 AND DATE_FORMAT(now(), '%Y-%m-%d') >= date_format(ad.ad_start, '%Y-%m-%d') AND DATE_FORMAT(now(), '%Y-%m-%d') <= date_format(ad.ad_end, '%Y-%m-%d')))
+			AND ad.ad_flag > 0
+		]]> 
 		GROUP BY inne.admin_pk, inne.admin_name, inne.jc_fk, inne.aa_work_start, inne.aa_work_end, work_breaks
-		ORDER BY aa_work_start
+		ORDER BY attendance_rank DESC
 	</select>
 	
 	
@@ -96,6 +106,7 @@
 	IF(outter.aa_work_start IS NOT NULL, SEC_TO_TIME(TIME_TO_SEC(outter.aa_work_end)-TIME_TO_SEC(outter.aa_work_start)) , null) AS work_time
 	FROM(
 		SELECT DATE_FORMAT(dc.dc_date, '%Y-%m-%d') AS dates,
+			GROUP_CONCAT(
 			CASE 
 				WHEN ad.ad_weeks IS NOT NULL AND ad.ad_start IS NULL AND ad.ad_end IS NULL AND ad.ad_weeks = WEEKDAY(dc.dc_date) AND WEEKDAY(dc.dc_date) = 0 THEN '월요일 휴무'
 				WHEN ad.ad_weeks IS NOT NULL AND ad.ad_start IS NULL AND ad.ad_end IS NULL AND ad.ad_weeks = WEEKDAY(dc.dc_date) AND WEEKDAY(dc.dc_date) = 1 THEN '화요일 휴무'
@@ -104,14 +115,18 @@
 	            WHEN ad.ad_weeks IS NOT NULL AND ad.ad_start IS NULL AND ad.ad_end IS NULL AND ad.ad_weeks = WEEKDAY(dc.dc_date) AND WEEKDAY(dc.dc_date) = 4 THEN '금요일 휴무'
 	            WHEN ad.ad_weeks IS NOT NULL AND ad.ad_start IS NULL AND ad.ad_end IS NULL AND ad.ad_weeks = WEEKDAY(dc.dc_date) AND WEEKDAY(dc.dc_date) = 5 THEN '토요일 휴무'
 	            WHEN ad.ad_weeks IS NOT NULL AND ad.ad_start IS NULL AND ad.ad_end IS NULL AND ad.ad_weeks = WEEKDAY(dc.dc_date) AND WEEKDAY(dc.dc_date) = 6 THEN '일요일 휴무'
-	            WHEN ad.ad_weeks IS NULL AND ad.ad_start IS NOT NULL AND ad.ad_end IS NOT NULL AND  dc.dc_date BETWEEN ad.ad_start AND ad.ad_end THEN ad.ad_title
-	            END AS ifs
+	            WHEN ad.ad_weeks 
+	            <![CDATA[
+	            <
+	            ]]> 
+	            0 AND ad.ad_start IS NOT NULL AND ad.ad_end IS NOT NULL AND  dc.dc_date BETWEEN ad.ad_start AND ad.ad_end THEN ad.ad_title
+	            END separator ' : ') AS ifs
 		FROM admin_daysoff AS ad,
 	    dummy_calendar AS dc
 		WHERE DATE_FORMAT(dc.dc_date, '%Y-%m') =  DATE_FORMAT(NOW(), '%Y-%m')
 		AND ad.admin_fk = #{adminPk}
 		AND ad.ad_flag > 0
-	    GROUP BY dates, ifs
+	    GROUP BY dates
 	    HAVING ifs IS NOT NULL
 	) inne
 	RIGHT JOIN dummy_calendar AS dc
@@ -177,6 +192,7 @@
 	IF(outter.aa_work_start IS NOT NULL, SEC_TO_TIME(TIME_TO_SEC(outter.aa_work_end)-TIME_TO_SEC(outter.aa_work_start)) , null) AS work_time
 	FROM(
 		SELECT DATE_FORMAT(dc.dc_date, '%Y-%m-%d') AS dates,
+			GROUP_CONCAT(
 			CASE 
 				WHEN ad.ad_weeks IS NOT NULL AND ad.ad_start IS NULL AND ad.ad_end IS NULL AND ad.ad_weeks = WEEKDAY(dc.dc_date) AND WEEKDAY(dc.dc_date) = 0 THEN '월요일 휴무'
 				WHEN ad.ad_weeks IS NOT NULL AND ad.ad_start IS NULL AND ad.ad_end IS NULL AND ad.ad_weeks = WEEKDAY(dc.dc_date) AND WEEKDAY(dc.dc_date) = 1 THEN '화요일 휴무'
@@ -185,14 +201,18 @@
 	            WHEN ad.ad_weeks IS NOT NULL AND ad.ad_start IS NULL AND ad.ad_end IS NULL AND ad.ad_weeks = WEEKDAY(dc.dc_date) AND WEEKDAY(dc.dc_date) = 4 THEN '금요일 휴무'
 	            WHEN ad.ad_weeks IS NOT NULL AND ad.ad_start IS NULL AND ad.ad_end IS NULL AND ad.ad_weeks = WEEKDAY(dc.dc_date) AND WEEKDAY(dc.dc_date) = 5 THEN '토요일 휴무'
 	            WHEN ad.ad_weeks IS NOT NULL AND ad.ad_start IS NULL AND ad.ad_end IS NULL AND ad.ad_weeks = WEEKDAY(dc.dc_date) AND WEEKDAY(dc.dc_date) = 6 THEN '일요일 휴무'
-	            WHEN ad.ad_weeks IS NULL AND ad.ad_start IS NOT NULL AND ad.ad_end IS NOT NULL AND  dc.dc_date BETWEEN ad.ad_start AND ad.ad_end THEN ad.ad_title
-	            END AS ifs
+	            WHEN ad.ad_weeks 
+	            <![CDATA[
+	            	< 
+	            ]]>	            
+	            0 AND ad.ad_start IS NOT NULL AND ad.ad_end IS NOT NULL AND  dc.dc_date BETWEEN ad.ad_start AND ad.ad_end THEN ad.ad_title
+	            END separator ' : ') AS ifs
 		FROM admin_daysoff AS ad,
 	    dummy_calendar AS dc
 		WHERE DATE_FORMAT(dc.dc_date, '%Y-%m') =  CONCAT(#{formatYear}, '-',#{formatMonth}) 
 		AND ad.admin_fk = #{adminPk}
 		AND ad.ad_flag > 0
-	    GROUP BY dates, ifs
+	    GROUP BY dates
 	    HAVING ifs IS NOT NULL
 	) inne
 	RIGHT JOIN dummy_calendar AS dc

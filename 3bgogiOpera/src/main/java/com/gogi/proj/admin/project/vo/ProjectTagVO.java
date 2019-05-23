@@ -2,60 +2,60 @@ package com.gogi.proj.admin.project.vo;
 
 public class ProjectTagVO {
 
-	private int ptPk; //태그 고유 번호
-	private int proFk; //업무 고유 번호
-	private int adminFk; //관리자 고유 번호
-	private String ptTitle; //태그명
+	private int ptagPk; //태그 고유 번호
+	private int ptagProFk; //업무 고유 번호
+	private int ptagAdminFk; //관리자 고유 번호
+	private String ptagTitle; //태그명
 	
 	public ProjectTagVO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 
-	public ProjectTagVO(int ptPk, int proFk, int adminFk, String ptTitle) {
+	public ProjectTagVO(int ptagPk, int ptagProFk, int ptagAdminFk, String ptagTitle) {
 		super();
-		this.ptPk = ptPk;
-		this.proFk = proFk;
-		this.adminFk = adminFk;
-		this.ptTitle = ptTitle;
+		this.ptagPk = ptagPk;
+		this.ptagProFk = ptagProFk;
+		this.ptagAdminFk = ptagAdminFk;
+		this.ptagTitle = ptagTitle;
 	}
 
-	public int getPtPk() {
-		return ptPk;
+	public int getPtagPk() {
+		return ptagPk;
 	}
 
-	public void setPtPk(int ptPk) {
-		this.ptPk = ptPk;
+	public void setPtagPk(int ptagPk) {
+		this.ptagPk = ptagPk;
 	}
 
-	public int getProFk() {
-		return proFk;
+	public int getPtagProFk() {
+		return ptagProFk;
 	}
 
-	public void setProFk(int proFk) {
-		this.proFk = proFk;
+	public void setPtagProFk(int ptagProFk) {
+		this.ptagProFk = ptagProFk;
 	}
 
-	public int getAdminFk() {
-		return adminFk;
+	public int getPtagAdminFk() {
+		return ptagAdminFk;
 	}
 
-	public void setAdminFk(int adminFk) {
-		this.adminFk = adminFk;
+	public void setPtagAdminFk(int ptagAdminFk) {
+		this.ptagAdminFk = ptagAdminFk;
 	}
 
-	public String getPtTitle() {
-		return ptTitle;
+	public String getPtagTitle() {
+		return ptagTitle;
 	}
 
-	public void setPtTitle(String ptTitle) {
-		this.ptTitle = ptTitle;
+	public void setPtagTitle(String ptagTitle) {
+		this.ptagTitle = ptagTitle;
 	}
 
 	@Override
 	public String toString() {
-		return "ProjectTagVO [ptPk=" + ptPk + ", proFk=" + proFk + ", adminFk=" + adminFk + ", ptTitle=" + ptTitle
-				+ "]";
+		return "ProjectTagVO [ptagPk=" + ptagPk + ", ptagProFk=" + ptagProFk + ", ptagAdminFk=" + ptagAdminFk
+				+ ", ptagTitle=" + ptagTitle + "]";
 	}
 	
 }

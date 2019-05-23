@@ -61,5 +61,8 @@ public class AdminDAOMybatis extends SqlSessionDaoSupport{
 		return getSqlSession().selectOne(namespace+".selectAdminInfoByAdminPk", adminPk);
 	}
 	
-	
+	public String selectAdminPassByAdminPk(int adminPk) {
+		
+		return getSqlSession().selectOne(namespace+".selectAdminPassByAdminPk", adminPk);
+	}
 }

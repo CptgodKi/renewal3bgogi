@@ -1,6 +1,7 @@
 package com.gogi.proj.orders.vo;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class OrdersVO {
 	
@@ -51,7 +52,7 @@ public class OrdersVO {
 	private String orInflowRoute; //유입경로
 	private String orRequest; //특별요청사항
 	private boolean orTaxFlag; // 면세, 과제 여부
-	private Date orRegdate; //현 주문서 등록일
+	private Timestamp orRegdate; //현 주문서 등록일
 	
 	public OrdersVO() {
 		super();
@@ -69,7 +70,7 @@ public class OrdersVO {
 			String orReceiverContractNumber2, String orShippingAddressNumber, String orShippingProvince,
 			String orShippingAddress, String orShippingAddressDetail, boolean orSpecialRegionDetail,
 			String orSendingAddress, String orPaymentType, int orPaymentCommision, int orAnotherPaymentCommision,
-			String orInflowRoute, String orRequest, boolean orTaxFlag, Date orRegdate) {
+			String orInflowRoute, String orRequest, boolean orTaxFlag, Timestamp orRegdate) {
 		super();
 		this.orPk = orPk;
 		this.pmFk = pmFk;
@@ -497,11 +498,11 @@ public class OrdersVO {
 		this.orTaxFlag = orTaxFlag;
 	}
 
-	public Date getOrRegdate() {
+	public Timestamp getOrRegdate() {
 		return orRegdate;
 	}
 
-	public void setOrRegdate(Date orRegdate) {
+	public void setOrRegdate(Timestamp orRegdate) {
 		this.orRegdate = orRegdate;
 	}
 
@@ -531,6 +532,8 @@ public class OrdersVO {
 				+ orAnotherPaymentCommision + ", orInflowRoute=" + orInflowRoute + ", orRequest=" + orRequest
 				+ ", orTaxFlag=" + orTaxFlag + ", orRegdate=" + orRegdate + "]";
 	}
+
+	
 
 }
 

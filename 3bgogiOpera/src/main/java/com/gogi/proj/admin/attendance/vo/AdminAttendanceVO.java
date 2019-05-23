@@ -27,6 +27,9 @@ public class AdminAttendanceVO {
 	private int jcFk;
 	private String adminName;
 	
+	//출근 순위
+	private int attendance_rank;
+
 	public AdminAttendanceVO() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -34,7 +37,7 @@ public class AdminAttendanceVO {
 
 	public AdminAttendanceVO(int aaPk, int adminFk, Timestamp aaWorkStart, Timestamp aaWorkEnd, String workYear,
 			String workMonth, String workTime, Timestamp dcDate, String workBreaks, int adminPk, String jcType,
-			int jcFk, String adminName) {
+			int jcFk, String adminName, int attendance_rank) {
 		super();
 		this.aaPk = aaPk;
 		this.adminFk = adminFk;
@@ -49,6 +52,7 @@ public class AdminAttendanceVO {
 		this.jcType = jcType;
 		this.jcFk = jcFk;
 		this.adminName = adminName;
+		this.attendance_rank = attendance_rank;
 	}
 
 	public int getAaPk() {
@@ -155,12 +159,20 @@ public class AdminAttendanceVO {
 		this.adminName = adminName;
 	}
 
+	public int getAttendance_rank() {
+		return attendance_rank;
+	}
+
+	public void setAttendance_rank(int attendance_rank) {
+		this.attendance_rank = attendance_rank;
+	}
+
 	@Override
 	public String toString() {
 		return "AdminAttendanceVO [aaPk=" + aaPk + ", adminFk=" + adminFk + ", aaWorkStart=" + aaWorkStart
 				+ ", aaWorkEnd=" + aaWorkEnd + ", workYear=" + workYear + ", workMonth=" + workMonth + ", workTime="
 				+ workTime + ", dcDate=" + dcDate + ", workBreaks=" + workBreaks + ", adminPk=" + adminPk + ", jcType="
-				+ jcType + ", jcFk=" + jcFk + ", adminName=" + adminName + "]";
+				+ jcType + ", jcFk=" + jcFk + ", adminName=" + adminName + ", attendance_rank=" + attendance_rank + "]";
 	}
-
+	
 }

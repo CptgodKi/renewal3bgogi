@@ -18,6 +18,15 @@
 		</collection>
 	</resultMap>
 	
+	<select id="selectAdminPassByAdminPk" parameterType="int" resultType="String">
+		SELECT
+			admin_pass
+		FROM 
+			admins
+		WHERE 
+			admin_pk = #{adminPk}
+	</select>
+	
 	<select id="fineAdminByUsername" resultMap="adminModel" parameterType="String">
 		SELECT admin_pk, admin_id AS username , admin_pass AS password, admin_phone AS adminphone, admin_name AS adminname ,admin_address, role, admin_worktime, jc_type
 		FROM `admins` ad JOIN `admin_roles` USING(admin_id)

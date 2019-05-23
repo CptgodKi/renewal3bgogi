@@ -27,25 +27,22 @@ public class AdminVO implements UserDetails{
 	
 	//그외
 	private String jcType;
-	
+	//업무대상자 확인
+	private boolean proInc;
 	
 	public AdminVO() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
 	
-	public AdminVO(int adminPk, int jcFk, String adminAddress, String adminId, String adminName, String adminPhone,
-			int enabled, String adminWorktime, String jcType) {
+	public AdminVO(int adminPk, int jcFk, String adminName, int enabled, String jcType, boolean proInc) {
 		super();
 		this.adminPk = adminPk;
 		this.jcFk = jcFk;
-		this.adminAddress = adminAddress;
-		this.adminId = adminId;
 		this.adminName = adminName;
-		this.adminPhone = adminPhone;
 		this.enabled = enabled;
-		this.adminWorktime = adminWorktime;
 		this.jcType = jcType;
+		this.proInc = proInc;
 	}
 
 	public int getJcFk() {
@@ -184,10 +181,4 @@ public class AdminVO implements UserDetails{
 	}
 
 
-	@Override
-	public String toString() {
-		return "AdminVO [adminPk=" + adminPk + ", adminAddress=" + adminAddress + ", adminId=" + adminId
-				+ ", adminName=" + adminName + ", adminPhone=" + adminPhone + ", enabled=" + enabled + "]";
-	}
-	
 }
